@@ -20,6 +20,10 @@ def encontrar_main_archivo(diccionario_informacion, funcion_main_dicc = None):
         #Suma una posición al contador
         contador += 1
 
+    #Si no se encontró la funcion princiapl, genera un NameError
+    if funcion_main_dicc == None:
+        raise NameError("¡ERROR: NO SE ENCONTRÓ LA FUNCION PRINCIPAL!")
+
     return funcion_main_dicc
 
 def formatear_arbol_invocacion(diccionario_informacion, funcion = None, string = ""):
@@ -46,8 +50,11 @@ def formatear_arbol_invocacion(diccionario_informacion, funcion = None, string =
     #Si la funcion recorrida tiene invocaciones las recorre
     else:
         for invocacion_de_funcion in range(len(invocaciones)):
+            #Si la invocación recorrida es la misma que la funcion analizada (recursividad), y solo tiene una invocación, la imprime
+            if invocaciones[invocacion_de_funcion] == funcion and len(invocaciones) == 1:
+                print(f'{str_invocacion} ---> {invocaciones[invocacion_de_funcion]}({diccionario_informacion[funcion]["cantidad_lineas"]})')
             #Si la invocación recorrida es la misma que la funcion analizada (recursividad), la imprime
-            if (invocaciones[invocacion_de_funcion] == funcion):
+            elif invocaciones[invocacion_de_funcion] == funcion:
                 print(f'{" " * len(str_invocacion)} ---> {invocaciones[invocacion_de_funcion]}({diccionario_informacion[funcion]["cantidad_lineas"]})')
             #Si la invocacion recorrida es la primera de las invocaciones, la función se llama a si misma y pasa el string como variable
             elif (invocacion_de_funcion == 0):
